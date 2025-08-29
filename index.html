@@ -6,7 +6,7 @@
 <title>From YOBO to GONGJUNIM</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
 
 <style>
   :root{
@@ -90,14 +90,17 @@
     text-transform:uppercase;
   }
 
-  .subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-weight:700; /* bold */
-    font-size:22px;
-    margin:0;
-    white-space:pre-wrap;
-    letter-spacing:0.06em;
-  }
+ .subtitle {
+  font-family: 'Playfair Display', 'Poppins', serif;
+  font-style: italic;
+  font-weight:700; /* bold */
+  font-size:22px;   /* keep same size */
+  margin:0;
+  white-space:pre-wrap;
+  letter-spacing:0.02em; /* slightly tighter for calligraphy */
+  text-transform: none;  /* keep original casing from your letter */
+}
+
 
   .ending {
     font-family: 'Poppins', sans-serif;
@@ -188,15 +191,35 @@ const HEART_COUNT = 15;
 /* Welcome (single short line) */
 const welcomeText = "FROM YOBO TO GONGJUNIM";
 
-/* Main paragraphs (each will display like subtitle — one at a time).
-   Edit any paragraph you want. Keep them short-ish for the subtitle look. */
 const mainParagraphs = [
-  "WE'VE GROWN UP TOGETHER SINCE FIFTEEN. EVERY MEMORY WITH YOU IS MY FAVORITE.",
-  "MOVING, STUDY, AND FAMILY NOISE HAVE MADE THESE DAYS HEAVIER — YOUR STRENGTH SHINES.",
-  "I CAN'T CALL EVERY DAY RIGHT NOW BECAUSE OF STUDIES, BUT PLEASE BE PATIENT — THIS TIME WILL PASS.",
-  "SOON WE'LL WALK IN THE FOREST, WATCH THE STARS, AND I'LL HOLD YOU CLOSE — LITTLE MOMENTS, FOREVER US.",
-  "AND FOR YOU, THE GIFT I PROMISED: \"KOREAN WITH TOMA\" — FOR THE TEACHER I LOVE."
+  "August 29, 2025",
+  "",
+  "Gongjunim,",
+  "",
+  "I adore you, sweetheart.",
+  "",
+  "I know how much you like to hear that — but I don’t only write it because you like it — I write it because it makes me warm all over inside to write it to you.",
+  "",
+  "It is such a terribly long time since I last told my feelings about you — almost years but I know you’ll excuse me because you understand how I am, stubborn and realistic; and I thought there was no sense to writing.",
+  "",
+  "But now I know my darling wife that it is right to do what I have delayed in doing, and that I have done so much in the past. I want to tell you I love you. I want to love you. I always will love you.",
+  "",
+  "I find it hard to understand in my mind what it means to love you after you are dead — but I still want to comfort and take care of you — and I want you to love me and care for me. I want to have problems to discuss with you — I want to do little projects with you.",
+  "",
+  "I never thought until just now that we can do that. What should we do. We started to learn to make apps together — or learn Uzbek — or talking without fight. Can’t I do something now? No. I am alone without you and you were the “ideal-girl” and general instigator of all our wild adventures.",
+  "",
+  "When you were sick you worried because you could not give me something that you wanted to and thought I needed. You needn’t have worried. Just as I told you then there was no real need because I loved you in so many ways so much. And now it is clearly even more true — you can give me nothing now yet I love you so that you stand in my way of loving anyone else — but I want you to stand there. You are so much better than anyone else alive.",
+  "",
+  "I know you will assure me that I am foolish and that you want me to have full happiness and don’t want to be in my way. I’ll bet you are surprised that I don’t even have a girlfriend (except you, sweetheart) after two years. But you can’t help it, darling, nor can I — I don’t understand it, for I have met many girls and very nice ones and I don’t want to remain alone — but in two or three meetings they all seem ashes. You only are left to me. You are real.",
+  "",
+  "My sunshine Gongjunim",
+  "I do adore you.",
+  "",
+  "I love you",
+  "",
+  "Forever yours - Yobo"
 ];
+
 
 /* Ending */
 const endingText = "FOREVER YOURS — YOBO";
@@ -406,5 +429,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
 
