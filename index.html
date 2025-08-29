@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>From YOBO to GONGJUNIM</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg1: #FFD9E8; /* light pink */
+    --bg2: #C9A8FF; /* lavender */
+    --bg3: #7C4DFF; /* deep purple */
+    --white: #ffffff;
+    --accent1: rgba(255,255,255,0.07);
+    --badge-bg: rgba(255,255,255,0.06);
+  }
+
+  /* Page reset */
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 60%, var(--bg3) 100%);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    color:var(--white);
+  }
+
+  /* Center container - mobile-first */
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    padding:28px 20px;
+    box-sizing:border-box;
+  }
+
+  /* Hearts container sits at bottom layer */
+  .hearts {
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    height:60vh; /* hearts will rise into this area */
+    pointer-events:none;
+    z-index:1;
+  }
+
+  .heart {
+    position:absolute;
+    bottom:-12vh; /* start slightly off-screen */
+    width:26px;
+    height:24px;
+    background: radial-gradient(circle at 30% 30%, #FF9BCB 0%, #FF6FA8 50%, #FF4D9E 100%);
+    transform: rotate(-45deg) scale(0.9);
+    border-radius: 50% 50% 0 0;
+    box-shadow: 0 6px 20px rgba(124,77,255,0.12), 0 2px 6px rgba(0,0,0,0.06);
+    opacity:0;
+    z-index:2;
+  }
+
+  /* heart shape: use pseudo elements for two lumps */
+  .heart::before,
+  .heart::after{
+    content:"";
+    position:absolute;
+    width:26px;
+    height:26px;
+    background: inherit;
+    border-radius:50%;
+    top:-13px;
+    left:0;
+  }
+  .heart::after{
+    left:13px;
+  }
+
+  /* Text card area */
+  .card {
+    position:relative;
+    z-index:3;
+    width:100%;
+    max-width:720px;
+    text-align:center;
+    padding: 28px 18px;
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:50vh;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  /* translucent backdrop behind welcome and ending */
+  .badge {
+    display:inline-block;
+    padding: 10px 18px;
+    border-radius:14px;
+    background: var(--badge-bg);
+    backdrop-filter: blur(6px);
+  }
+
+  /* text blocks */
+  .text-block {
+    max-width: 86%;
+    margin: 0 auto;
+    color:var(--white);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    line-height:1.15;
+  }
+
+  /* welcome bigger */
+  .welcome {
+    font-family: 'Great Vibes', cursive;
+    font-weight:400;
+    font-size:38px;
+    letter-spacing:0.06em;
+    margin:0;
+  }
+
+  /* main letter */
+  .main {
+    font-family: 'Poppins', sans-serif;
+    font-weight:300;
+    font-size:18px;
+  }
+
+  /* ending slightly smaller */
+  .ending {
+    font-family: 'Poppins', sans-serif;
+    font-weight:600;
+    font-size:20px;
+  }
+
+  /* typing caret */
+  .typing-caret{
+    display:inline-block;
+    width:6px;
+    height:1.1em;
+    background:var(--white);
+    margin-left:6px;
+    vertical-align:bottom;
+    animation: blink 1s steps(2, start) infinite;
+    border-radius:2px;
+  }
+  @keyframes blink { 50% { opacity:0 } }
+
+  /* fade utils */
+  .fade-out { animation: fadeOut 500ms ease forwards; }
+  .fade-in { animation: fadeIn 400ms ease both; }
+  @keyframes fadeOut { to { opacity:0; transform: translateY(-6px); } }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:none; } }
+
+  /* button */
+  .btn {
+    display:inline-block;
+    margin-top:14px;
+    padding:12px 22px;
+    border-radius:999px;
+    text-transform:uppercase;
+    font-weight:600;
+    font-size:15px;
+    background: linear-gradient(90deg, #FF88C7 0%, #C9A8FF 60%, #8C63FF 100%);
+    color:var(--white);
+    border:none;
+    box-shadow: 0 8px 30px rgba(124,77,255,0.16);
+    cursor:pointer;
+    transform: translateY(8px) scale(0.98);
+    opacity:0;
+    transition: transform 300ms cubic-bezier(.2,.9,.3,1), opacity 250ms ease;
+    z-index:4;
+  }
+
+  .btn.show {
+    opacity:1;
+    transform: translateY(0) scale(1);
+    animation: popIn 420ms cubic-bezier(.2,.9,.3,1) both;
+  }
+  @keyframes popIn { from { transform: scale(.85) translateY(6px); opacity:0 } to { transform: scale(1) translateY(0); opacity:1 } }
+
+  /* Responsive tweaks for large phones (iPhone 15 Pro Max) */
+  @media(min-width:420px){
+    .welcome { font-size:48px; }
+    .main { font-size:20px; }
+    .ending { font-size:22px; }
+    .heart { width:34px; height:30px; }
+  }
+
+  /* small accessibility */
+  a { color:inherit; text-decoration:none; }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- hearts area -->
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+  <!-- main card -->
+  <div class="card" role="main" aria-live="polite">
+    <!-- typed content will appear here -->
+    <div id="textArea" class="text-block fade-in"></div>
+
+    <!-- button placeholder -->
+    <div id="buttonWrap" style="width:100%; display:flex; justify-content:center;">
+      <a id="instaBtn" class="btn" href="https://www.instagram.com/realferuzbek/" target="_blank" rel="noopener noreferrer">Back To YOBO</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Configuration ---------- */
+const TYPING_SPEED = 40; // ms per char (medium)
+const PAUSE_AFTER_WELCOME = 1400; // ms
+const PAUSE_BETWEEN_PARAGRAPHS = 900; // ms
+const PAUSE_AFTER_MAIN = 700; // ms
+const HEART_COUNT = 15;
+
+/* ---------- Text content (all uppercase already) ---------- */
+const welcomeText = ["FROM YOBO TO GONGJUNIM"];
+
+const mainParagraphs = [
+  "WE’VE GROWN UP TOGETHER SINCE FIFTEEN. EVERY MEMORY WITH YOU IS MY FAVORITE. EVEN WHEN DAYS FEEL HEAVY, I FEEL LUCKY TO CALL YOU MINE.",
+  "I KNOW STUDYING AND MOVING TO A NEW CITY HAVE MADE THINGS HARD. I SEE HOW FAMILY NOISE AND SCALES AROUND YOU WEIGH ON YOUR HEART. I’M SO PROUD OF YOUR STRENGTH.",
+  "I CAN’T CALL EVERY DAY RIGHT NOW BECAUSE OF STUDIES, BUT PLEASE TRUST ME — I’M NOT GOING ANYWHERE. BE PATIENT WITH THIS TIME; IT WILL PASS.",
+  "REMEMBER OUR DREAMS: WALKS IN THE FOREST, NIGHTS UNDER THE STARS WITH YOU IN MY ARMS, AND THE SIMPLE MOMENTS I WANT TO SHARE WITH YOU.",
+  "AND FOR YOU — THE GIFT I PROMISED: A SCHOOL FOR YOUR KOREAN LESSONS CALLED \"KOREAN WITH TOMA\" — FOR THE TEACHER I LOVE."
+];
+
+const endingText = ["FOREVER YOURS — YOBO"];
+
+/* ---------- Helpers for typing ---------- */
+function sleep(ms){ return new Promise(res => setTimeout(res, ms)); }
+
+async function typeInto(element, text, speed, keepCaret=true){
+  // create a span for the text and caret
+  const paragraph = document.createElement('div');
+  paragraph.className = 'main';
+  paragraph.style.opacity = '1';
+  paragraph.style.marginTop = '6px';
+  paragraph.style.whiteSpace = 'pre-wrap';
+  paragraph.style.textTransform = 'uppercase';
+  element.appendChild(paragraph);
+
+  const caret = document.createElement('span');
+  caret.className = 'typing-caret';
+  if(!keepCaret) caret.style.display='none';
+
+  // type char by char
+  for(let i=0;i<text.length;i++){
+    const ch = text.charAt(i);
+    paragraph.textContent += ch;
+    // small speed variance for natural feel
+    await sleep(speed + Math.floor(Math.random()*8 - 4));
+  }
+  // append caret for slight pause
+  paragraph.appendChild(caret);
+
+  return paragraph;
+}
+
+/* append ending signature with stronger style */
+async function typeEnding(element, text, speed){
+  const paragraph = document.createElement('div');
+  paragraph.className = 'ending';
+  paragraph.style.opacity='1';
+  paragraph.style.marginTop='10px';
+  paragraph.style.whiteSpace = 'pre-wrap';
+  paragraph.style.textTransform='uppercase';
+  element.appendChild(paragraph);
+
+  const caret = document.createElement('span');
+  caret.className = 'typing-caret';
+
+  for(let i=0;i<text.length;i++){
+    paragraph.textContent += text.charAt(i);
+    await sleep(speed + Math.floor(Math.random()*7 - 3));
+  }
+  paragraph.appendChild(caret);
+  return paragraph;
+}
+
+/* type a sequence where paragraphs accumulate (welcome cleared after) */
+async function runSequence(){
+  const area = document.getElementById('textArea');
+
+  // ---------- welcome ----------
+  // show welcome with special font and badge
+  const badge = document.createElement('div');
+  badge.className = 'badge welcome text-block';
+  badge.style.marginBottom = '6px';
+  badge.style.padding = '6px 12px';
+  badge.style.display = 'inline-block';
+  badge.style.borderRadius = '12px';
+  badge.style.fontFamily = "'Great Vibes', cursive";
+  badge.style.fontSize = '40px';
+  badge.style.letterSpacing = '0.06em';
+  badge.style.textTransform = 'uppercase';
+
+  area.appendChild(badge);
+  await typeInto(badge, welcomeText[0], TYPING_SPEED, true);
+
+  // wait so she reads welcome
+  await sleep(PAUSE_AFTER_WELCOME);
+
+  // fade out welcome
+  badge.classList.add('fade-out');
+  await sleep(520);
+  area.removeChild(badge);
+  // clear area for main paragraphs
+  area.innerHTML = '';
+  await sleep(200);
+
+  // ---------- main paragraphs ----------
+  // We'll append each paragraph (so they look like continuing letter)
+  for(let i=0;i<mainParagraphs.length;i++){
+    await typeInto(area, mainParagraphs[i], TYPING_SPEED, true);
+    await sleep(PAUSE_BETWEEN_PARAGRAPHS);
+  }
+
+  await sleep(PAUSE_AFTER_MAIN);
+
+  // ---------- ending ----------
+  // put a subtle badge background for ending
+  const endingBadge = document.createElement('div');
+  endingBadge.className = 'badge';
+  endingBadge.style.padding = '8px 14px';
+  endingBadge.style.borderRadius = '12px';
+  endingBadge.style.display = 'inline-block';
+  endingBadge.style.marginTop = '8px';
+  endingBadge.style.textTransform = 'uppercase';
+
+  // append ending container first (it will contain typed ending)
+  area.appendChild(endingBadge);
+  await typeEnding(endingBadge, endingText[0], TYPING_SPEED);
+
+  // show the button after ending typed
+  await sleep(450);
+  const btn = document.getElementById('instaBtn');
+  btn.classList.add('show');
+
+  // Ensure ending text remains until tap (we do nothing on end)
+}
+
+/* ---------- Hearts animation generator ---------- */
+function createHearts(count){
+  const container = document.getElementById('hearts');
+  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
+  for(let i=0;i<count;i++){
+    const h = document.createElement('div');
+    h.className = 'heart';
+    // compute left position - spread around center but across wide bottom
+    // spread percentage range from 30% to 70% to keep near center but not too far.
+    const leftPct = 30 + Math.random()*40; // 30% - 70%
+    h.style.left = leftPct + '%';
+
+    // random scale & slight rotation
+    const scale = 0.9 + Math.random()*0.6;
+    const rot = (Math.random()*24 - 12) | 0;
+    h.style.transform = `rotate(${rot}deg) scale(${scale})`;
+
+    // random delay and duration to create rhythm
+    const delay = Math.random()*2.2; // seconds
+    const duration = 4.0 + Math.random()*2.8; // seconds
+
+    // set keyframe animation using JS for translate and opacity
+    const riseDistance = (35 + Math.random()*12); // in vh (to land under mid screen)
+    const keyframesName = `rise${i}`;
+
+    // create dynamic keyframes style
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @keyframes ${keyframesName} {
+        0% { transform: translateY(0) rotate(${rot}deg) scale(${scale}); opacity: 0; }
+        6% { opacity: 1; }
+        80% { transform: translateY(-${riseDistance}vh) rotate(${rot + (Math.random()*10-5)}deg) scale(${scale*1.02}); opacity: 0.96; }
+        100% { transform: translateY(-${riseDistance+6}vh) rotate(${rot+6}deg) scale(${scale*1.06}); opacity: 0; }
+      }`;
+    document.head.appendChild(styleEl);
+
+    h.style.animation = `${keyframesName} ${duration}s ${delay}s infinite cubic-bezier(.2,.9,.3,1)`;
+    container.appendChild(h);
+  }
+}
+
+/* ---------- Kick everything off ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  createHearts(HEART_COUNT);
+  runSequence().catch(e => console.error(e));
+});
+
+/* Prevent accidental text selection on long press */
+document.addEventListener('touchstart', (e)=>{ /* nothing — just avoid select */ }, {passive:true});
+</script>
+
+</body>
+</html>
