@@ -165,7 +165,6 @@
 </head>
 <body>
 
-
 <div class="wrap">
 
   <div id="hearts" class="hearts" aria-hidden="true"></div>
@@ -320,47 +319,6 @@ async function runSequence(){
   btn.classList.add('show');
 }
 /* -------------- HEARTS (SVG hearts with better shape) -------------- */
-
-
-
-
-  // type welcome
-  for(let i=0;i<welcomeText.length;i++){
-    w.textContent += welcomeText.charAt(i);
-    await sleep(TYPING_SPEED + Math.floor(Math.random()*8 - 4));
-  }
-  w.appendChild(welcomeCaret);
-  await sleep(PAUSE_AFTER_WELCOME);
-
-  // clear welcome
-  welcomeBadge.classList.add('fade-out');
-  await sleep(420);
-  textArea.innerHTML = '';
-  removeGlobalCaret();
-
-  // show each main paragraph one by one (subtitle style)
-  for(let i=0;i<mainParagraphs.length;i++){
-    const {wrapper, p, caret} = await typeAsSubtitle(mainParagraphs[i], TYPING_SPEED);
-    // pause so she reads
-    await sleep(PAUSE_BETWEEN_PARAGRAPHS + 200);
-    // remove caret before moving on
-    removeGlobalCaret();
-    // fade out this subtitle before next
-    wrapper.classList.add('fade-out');
-    await sleep(320);
-  }
-
-  await sleep(PAUSE_AFTER_MAIN);
-
-  // ending (typed and stays)
-  const endingEl = await typeEnding(endingText, TYPING_SPEED);
-  await sleep(420);
-  // show the button
-  const btn = document.getElementById('instaBtn');
-  btn.classList.add('show');
-}
-
-/* -------------- HEARTS (SVG hearts with better shape) -------------- */
 function createHearts(count){
   const container = document.getElementById('hearts');
   for(let i=0;i<count;i++){
@@ -441,6 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
