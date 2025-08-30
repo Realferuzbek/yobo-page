@@ -295,21 +295,32 @@ function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
 /* -------------- RUN SEQUENCE -------------- */
 async function runSequence(){
-  // Welcome
+  // start directly with the main paragraphs (no welcome)
   textArea.innerHTML = '';
-  const welcomeBadge = document.createElement('div');
-  welcomeBadge.className = 'badge fade-in';
-  const w = document.createElement('div');
-  w.className = 'welcome';
-  w.textContent = ''; // we'll type
-  welcomeBadge.appendChild(w);
-  textArea.appendChild(welcomeBadge);
-
-  // caret for welcome
   removeGlobalCaret();
-  const welcomeCaret = document.createElement('span');
-  welcomeCaret.className = 'typing-caret';
-  globalCaret = welcomeCaret;
+
+  // show each main paragraph one by one (subtitle style)
+  for(let i=0;i<mainParagraphs.length;i++){
+    const {wrapper, p, caret} = await typeAsSubtitle(mainParagraphs[i], TYPING_SPEED);
+    // pause so they read
+    await sleep(PAUSE_BETWEEN_PARAGRAPHS + 200);
+    // remove caret before moving on
+    removeGlobalCaret();
+    // fade out this subtitle before next
+    wrapper.classList.add('fade-out');
+    await sleep(320);
+  }
+
+  await sleep(PAUSE_AFTER_MAIN);
+
+  // ending (typed and stays)
+  const endingEl = await typeEnding(endingText, TYPING_SPEED);
+  await sleep(420);
+  // show the button
+  const btn = document.getElementById('instaBtn');
+  btn.classList.add('show');
+}
+
 
   // type welcome
   for(let i=0;i<welcomeText.length;i++){
@@ -428,6 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
