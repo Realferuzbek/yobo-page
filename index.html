@@ -164,26 +164,6 @@
 </style>
 </head>
 <body>
-
-<!-- Background Music: "Die With A Smile" -->
-<audio id="bg-music" loop muted>
-  <source src="https://dl.dropboxusercontent.com/scl/fi/77v45eez765istp0bmu2y/song1.mp3" type="audio/mpeg">
-  Your browser does not support audio playback.
-</audio>
-<script>
-  const audio = document.getElementById('bg-music');
-  audio.addEventListener('loadedmetadata', () => {
-    if (audio.duration > 5) {
-      audio.currentTime = 5; // start at 5 seconds
-    }
-    audio.play().catch(() => {});
-  });
-  function unmuteAndPlay() {
-    audio.muted = false;
-    audio.play();
-    document.body.removeEventListener('click', unmuteAndPlay);
-  }
-  document.body.addEventListener('click', unmuteAndPlay);
 </script>
 
 
@@ -206,7 +186,7 @@ const TYPING_SPEED = 80;        // ms per char (set slower)
 const PAUSE_AFTER_WELCOME = 1200;
 const PAUSE_BETWEEN_PARAGRAPHS = 1000;
 const PAUSE_AFTER_MAIN = 600;
-const HEART_COUNT = 15;
+const HEART_COUNT = 35;
 
 /* -------------- TEXT (EDIT THESE) -------------- */
 /* Welcome (single short line) */
@@ -448,6 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
