@@ -165,6 +165,34 @@
 </head>
 <body>
 
+<!-- Background Music (starts at 00:05, unmute after first tap) -->
+<audio id="bg-music" loop muted>
+  <source src="https://audio.com/milica-paunov/audio/lady-gaga-bruno-mars-die-with-a-smile" type="audio/mpeg">
+  Your browser does not support audio playback.
+</audio>
+<script>
+  const audio = document.getElementById('bg-music');
+  // Set start time 5 seconds in after metadata loads
+  audio.addEventListener('loadedmetadata', () => {
+    if (audio.duration > 5) {
+      audio.currentTime = 5;
+    }
+    audio.play().catch(() => {
+      // autoplay blocked; will play on user tap
+    });
+  });
+
+  // Unmute and play on first screen tap
+  function unmuteAndPlay() {
+    audio.muted = false;
+    audio.play();
+    document.body.removeEventListener('click', unmuteAndPlay);
+  }
+  document.body.addEventListener('click', unmuteAndPlay);
+</script>
+
+
+
 <div class="wrap">
 
   <div id="hearts" class="hearts" aria-hidden="true"></div>
@@ -426,5 +454,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
